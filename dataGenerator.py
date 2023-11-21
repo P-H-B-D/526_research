@@ -1,7 +1,7 @@
 import numpy as np
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Author: Peter Bowman-Davis                                        #
+# Author: Peter Bowman-Davis, Nov 20, 2023                          #
 # Helper class to generate data for use in timeseries exploration   #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -16,7 +16,7 @@ class dataGenerator:
         self.samples = kwargs.get('samples', 21)
         self.t_min = kwargs.get('t_min', 0)
         self.t_max = kwargs.get('t_max', 2)
-        self.fxn = kwargs.get('fxn', np.sin)
+        self.fxn = kwargs.get('fxn', lambda x: np.sin(2 * np.pi *x)+1)
 
         seed = kwargs.get('seed')
         if seed is not None:
@@ -24,7 +24,7 @@ class dataGenerator:
 
     def generate(self):
         t = np.linspace(self.t_min, self.t_max, self.resolution)
-        amplitude = self.amplitude_min + (self.amplitude_max - self.amplitude_min) * self.fxn(2 * np.pi * t) + 1
+        amplitude = self.amplitude_min + (self.amplitude_max - self.amplitude_min) * self.fxn(t)
         amplitude = amplitude + self.noise * np.random.rand(self.resolution)
         scaled_amplitude = np.interp(amplitude, (amplitude.min(), amplitude.max()), (self.scale_min, self.scale_max))
         sample_indices = np.linspace(0, self.resolution-1, self.samples) 
@@ -37,7 +37,3 @@ class dataGenerator:
     def generateStringOutput(self):
         (sample_time,sampled_amplitude) = self.generate()
         return " ".join(str(x) for x in sampled_amplitude)
-
-    
-
-
