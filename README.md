@@ -12,6 +12,6 @@ I first set up the experiment to use the tokenization technique described by [Gr
 This work is important because it not only shows that using LLMs for Zero-Shot Timeseries forecasting is advantageous due to their domain agnosticism, but also because they may be augmented with additional textual data.
 
 TODO:
-- Make GPT calls run in parallel and design large-scale experiment (n=1000) for each prompt, store data.
-- Generate summary statistics for forecasted data.
+- Data integrity verification on over n>1 calls, try "generate next n samples" prompt.
+- Generate summary statistics for forecasted data – distribution visualization. Statistics: MAE, distribution distances (KL), geometric properties (curvature estimations, etc).
 - Evaluate the effects of various prompting techniques (e.g. in-context natural language physical descriptors) on timeseries forecasting.

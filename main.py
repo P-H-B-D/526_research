@@ -27,10 +27,10 @@ def genNextSequence(inputSeq):
         {"role": "system", "content": sysPrompt},
         {"role": "user", "content": prompt}
     ],
-    max_tokens=50
+    max_tokens=50,
+    #n=50 # Number of samples to generate, can be used to generate multiple samples and store them for later
     )
     return completion
-
 
 try:
     generatedNumbers = genNextSequence(input).choices[0].message.content
