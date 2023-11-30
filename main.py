@@ -17,8 +17,10 @@ sine_wave=lambda x: np.sin(2*np.pi*x)
 # Generate input sequence
 dg=dataGenerator(t_max=2, samples=31, noise=0.0,fxn=damped_harmonic_oscillator)
 input=dg.generateStringOutput()
+
+
 def genNextSequence(inputSeq):
-    sysPrompt="You are a helpful assistant that performs time series predictions. Please continue the following sequence without producing any additional text, just return the numbers. "
+    sysPrompt="You are a helpful assistant that performs time series predictions on an underdamped Damped Harmonic Oscillator. Please continue the following sequence without producing any additional text, just return the next twenty numbers. "
     prompt=inputSeq
 
     completion = client.chat.completions.create(
@@ -28,33 +30,21 @@ def genNextSequence(inputSeq):
         {"role": "user", "content": prompt}
     ],
     max_tokens=50,
-    #n=50 # Number of samples to generate, can be used to generate multiple samples and store them for later
+    n=20
     )
     return completion
 
-try:
-    generatedNumbers = genNextSequence(input).choices[0].message.content
-except:
-    print("Error in response from OpenAI API.")
-    exit(1)
+plt.plot(range(0,len(input.split(" "))),[int(y) for y in input.split(" ")], 'r')
+plt.plot(range(0,len(input.split(" "))),[int(y) for y in input.split(" ")], 'ro')
+
+for message in genNextSequence(input).choices:
+    generatedSamples=[int(stringNumber) for stringNumber in message.message.content.split(" ")]
+    plt.plot(range(len(input.split(" ")), len(input.split(" ")) + len(generatedSamples)), generatedSamples, 'b', alpha=0.1)
+    plt.plot(range(len(input.split(" ")), len(input.split(" ")) + len(generatedSamples)), generatedSamples, 'bo', alpha=0.1)
 
 
-try:
-    generatedSamples=[int(stringNumber) for stringNumber in generatedNumbers.split(" ") if stringNumber != ""]
-    plt.plot(range(0,len(input.split(" "))),[int(y) for y in input.split(" ")], 'r')
-    plt.plot(range(0,len(input.split(" "))),[int(y) for y in input.split(" ")], 'ro')
-    plt.plot(range(len(input.split(" ")), len(input.split(" ")) + len(generatedSamples)), generatedSamples, 'b')
-    plt.plot(range(len(input.split(" ")), len(input.split(" ")) + len(generatedSamples)), generatedSamples, 'bo')
-    plt.xlabel("Time")
-    plt.ylabel("Amplitude")
-    plt.title("Damped Harmonic Oscillator")
-    plt.legend(["","Actual","","Forecast without System Descriptor"])
-    plt.show()
-
-except:
-    print("Error: Generated numbers do not match expected format.")
-    print("Expected: ['number', ' ', 'number', ' ', 'number', ' ', ... etc], got: " + generatedNumbers)
-    #TODO: Add retry logic.
-    exit(1)
-
+plt.xlabel("Time")
+plt.ylabel("Amplitude")
+plt.title("Damped Harmonic Oscillator")
+plt.show()
 
