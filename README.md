@@ -5,6 +5,7 @@ Peter Bowman-Davis, 2023
 "You are a helpful assistant that performs time series predictions on a Damped Harmonic Oscillator."            |  "You are a helpful assistant that performs time series predictions."
 :-------------------------:|:-------------------------:
 ![Fig1](https://github.com/P-H-B-D/526_research/blob/main/Figure_1.png)  |  ![Fig2](https://github.com/P-H-B-D/526_research/blob/main/Figure_2.png)
+![Fig3](https://github.com/P-H-B-D/526_research/blob/main/Figure_3.png)  |  ![Fig4](https://github.com/P-H-B-D/526_research/blob/main/Figure_4.png)
 
 
 
