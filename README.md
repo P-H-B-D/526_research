@@ -1,10 +1,12 @@
 # LLM Timeseries Forecasting for Physical Systems
 
+
+
+Code demonstration for APHY 526, "Explorations in Physics and Computation", Yale GSAS. 
+c/o Peter Bowman-Davis, Fall 2023.
+
 #### *Abstract*: 
 LLMs have been shown to be [zero-shot timeseries forecasters](https://arxiv.org/pdf/2310.07820.pdf). I show their zero-shot timeseries forecasting ability can be augmented through contextual information about the generating process (in this case, a physical process), revealing a deep structural connection between next numeric token prediction and textual pretraining.  
-
-Peter Bowman-Davis code demonstration for APHY 526, "Explorations in Physics and Computation", Yale GSAS, Fall 2023.
-
 
 "You are a helpful assistant that performs time series predictions on a Damped Harmonic Oscillator."            |  "You are a helpful assistant that performs time series predictions."
 :-------------------------:|:-------------------------:
@@ -16,15 +18,12 @@ Min MSE:  423.75 | Min MSE:  449.55
 Fraction of samples with values outside of bounds:  0.002 | Fraction of samples with values outside of bounds:  0.029
 Fraction of samples with values outside of true bounds:  0.349 | Fraction of samples with values outside of true bounds:  0.666
 
+Expanding on the work of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), I investigate the ability of Large Language Models (LLMs) to act as Zero-Shot Time Series Forecasters within the context of physical systems modelling. In particular, I measure the ability of LLMs to incorporate textual information about the physical system (e.g. a description of the system, its mechanics or physical attributes, etc.) for use in its forecasting. This demonstration may be seen as a natural extension to the results of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), and related literature on In-Context-Learning (ICL) more broadly, (see: [Brown et al.](https://arxiv.org/pdf/2005.14165.pdf), [Min et al.](https://arxiv.org/pdf/2202.12837.pdf)), given that the process of integrating physical descriptions into the forecasted sequence is done entirely in-context.
 
+I first set up the experiment to use the tokenization technique described by [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf) to leverage GPT-3.5-Turbo tokenization for the in-context "training" data (e.g. the given tokens), ensuring each timestep maps to a single token, and all tokens are separated by space tokens (see [tokenizerTest.py](https://github.com/P-H-B-D/526_research/blob/main/tokenizerDemo/tokenizerTest.py) for a proof-of-concept of this). 
 
-Expanding on the work of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), I investigate the ability of Large Language Models (LLMs) to act as Zero-Shot Time Series Forecasters within the context of physical systems modelling. In particular, I investigate the ability of LLMs to incorporate textual information about the physical system (e.g. a description of the system, its mechanics or physical attributes, etc.) for use in its forecasting. If this proves to be successful, it may be seen as a natural extension to the results of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), and related literature on In-Context-Learning (ICL) more broadly, (see: [Brown et al.](https://arxiv.org/pdf/2005.14165.pdf), [Min et al.](https://arxiv.org/pdf/2202.12837.pdf)).
+Next, I demonstrate the process of augmenting zero-shot timeseries forecasting using physical descriptors on two systems: An underdamped harmonic oscillator and a noisy sinusoidal signal. In doing so with significant sample and sequence size (n=1000 and generation length = 20) for each physical descriptor, I measure the effect of various physical descriptors on statistical outcomes of the models, such as the average error and variance in sequence generation.
 
-I first set up the experiment to use the tokenization technique described by [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf) to leverage GPT-3.5+ tokenization for the positional data, ensuring each timestep maps to a single token, and all tokens are separated by space tokens (see [tokenizerTest.py](https://github.com/P-H-B-D/526_research/blob/main/tokenizerDemo/tokenizerTest.py) for a proof-of-concept of this). Next, I generate a variety of data for physical systems (see [main.py](https://github.com/P-H-B-D/526_research/blob/main/main.py) > function library – currently, a SHO and damped harmonic oscillator are implemented) for timeseries forecasting. After, I design a variety of prompts that describe each physical system in terms of its attributes. Finally, I use OpenAI's GPT-3.5-Turbo model to generate predictions for the next sequence of position tokens. After many trials, I will determine the difference in distributions between prompting strategies, which will effectively determine if the descriptor of the physical system has positive impact upon its ability to forecast next timesteps in the system.
+In doing so, I find that the integration of different physical information into the prompt may either increase or decrease the error and index-wise standard deviation of the generated sequences. Somewhat predictably, this means that not all physical information is integrated equally into the timeseries forecasting process. It is thus described that further research is needed to better understand the relation of various descriptors and their resulting effects on statistical outcomes.
 
-This work is important because it not only shows that using LLMs for Zero-Shot Timeseries forecasting is advantageous due to their domain agnosticism, but also because they may be augmented with additional textual data.
-
-TODO:
-- Improve the README writeup. 
-- Add more physical demonstrations (Lotka-Volterra, Replicator equations)
-- Evaluate the effects of various prompting techniques (e.g. in-context natural language physical descriptors) on timeseries forecasting. 
+This work demonstrates strong empirical evidence for the possible benefit of incorporating physical descriptors into the zero-shot forecasting prompt. In turn, this reveals a nontrivial insight into transformers: zero-shot timeseries forecasting ability can be augmented through textual descriptors about the generating process, revealing a deep structural connection between next numeric token prediction and textual pretraining. That is to say, the LLM appears to be capable of effectively integrating contextual information about processes which generate timeseries data into next-token prediction, even when the contextual information pertains to abstract concepts such as an "underdamped harmonic oscillator". Even more impressive is that this entire process takes place in-context and without the use of techniques such as [Chain-of-Thought (Wei et al.)](https://arxiv.org/abs/2201.11903), which would likely be able to even further boost performance through a textual description generation process. 
