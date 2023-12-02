@@ -18,6 +18,9 @@ Min MSE:  423.75 | Min MSE:  449.55
 Fraction of samples with values outside of bounds:  0.002 | Fraction of samples with values outside of bounds:  0.029
 Fraction of samples with values outside of true bounds:  0.349 | Fraction of samples with values outside of true bounds:  0.666
 
+
+## [Code Example 1 (Underdamped Harmonic Oscillator)](https://github.com/P-H-B-D/526_research/blob/main/dampedHarmonic.ipynb) | [Code Example 2 (Noisy Sinusoid)](https://github.com/P-H-B-D/526_research/blob/main/sineWave.ipynb)
+
 Expanding on the work of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), I investigate the ability of Large Language Models (LLMs) to act as Zero-Shot Time Series Forecasters within the context of physical systems modelling. In particular, I measure the ability of LLMs to incorporate textual information about the physical system (e.g. a description of the system, its mechanics or physical attributes, etc.) for use in its forecasting. This demonstration may be seen as a natural extension to the results of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), and related literature on In-Context-Learning (ICL) more broadly, (see: [Brown et al.](https://arxiv.org/pdf/2005.14165.pdf), [Min et al.](https://arxiv.org/pdf/2202.12837.pdf)), given that the process of integrating physical descriptions into the forecasted sequence is done entirely in-context.
 
 I first set up the experiment to use the tokenization technique described by [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf) to leverage GPT-3.5-Turbo tokenization for the in-context "training" data (e.g. the given tokens), ensuring each timestep maps to a single token, and all tokens are separated by space tokens (see [tokenizerTest.py](https://github.com/P-H-B-D/526_research/blob/main/tokenizerDemo/tokenizerTest.py) for a proof-of-concept of this). 
