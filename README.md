@@ -1,13 +1,20 @@
 # LLM Timeseries Forecasting for Physical Systems
 
-#### Informal TL;DR: LLMs have been shown to be [zero-shot timeseries forecasters](https://arxiv.org/pdf/2310.07820.pdf). I show their zero-shot timeseries forecasting ability can be augmented through contextual information about the generating process (in this case, a physical process), revealing a deep structural connection between next numeric token prediction and textual pretraining.  
+#### *Abstract*: 
+LLMs have been shown to be [zero-shot timeseries forecasters](https://arxiv.org/pdf/2310.07820.pdf). I show their zero-shot timeseries forecasting ability can be augmented through contextual information about the generating process (in this case, a physical process), revealing a deep structural connection between next numeric token prediction and textual pretraining.  
 
-An open-source demonstration created by Peter Bowman-Davis for APHY 526, "Explorations in Physics and Computation", at Yale University Graduate School of Arts and Sciences.
+Peter Bowman-Davis code demonstration for APHY 526, "Explorations in Physics and Computation", Yale GSAS, Fall 2023.
+
 
 "You are a helpful assistant that performs time series predictions on a Damped Harmonic Oscillator."            |  "You are a helpful assistant that performs time series predictions."
 :-------------------------:|:-------------------------:
 ![Fig1](https://github.com/P-H-B-D/526_research/blob/main/READMEfigures/Figure_1.png)  |  ![Fig2](https://github.com/P-H-B-D/526_research/blob/main/READMEfigures/Figure_2.png)
-![Fig3](https://github.com/P-H-B-D/526_research/blob/main/READMEfigures/Figure_3.png)  |  ![Fig4](https://github.com/P-H-B-D/526_research/blob/main/READMEfigures/Figure_4.png)
+Average MAE:  52.35185  |  Average MAE:  77.82245000000002
+Average MSE:  4960.373449999999 | Average MSE:  12778.02805
+Min MAE:  17.85 | Min MAE:  16.65
+Min MSE:  423.75 | Min MSE:  449.55
+Fraction of samples with values outside of bounds:  0.002 | Fraction of samples with values outside of bounds:  0.029
+Fraction of samples with values outside of true bounds:  0.349 | Fraction of samples with values outside of true bounds:  0.666
 
 
 
