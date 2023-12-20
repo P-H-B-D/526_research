@@ -21,7 +21,16 @@ Fraction of samples with values outside of true bounds:  0.349 | Fraction of sam
 
 ### [Code Example 1 (Underdamped Harmonic Oscillator)](https://github.com/P-H-B-D/526_research/blob/main/dampedHarmonic.ipynb) | [Code Example 2 (Noisy Sinusoid)](https://github.com/P-H-B-D/526_research/blob/main/sineWave.ipynb)
 
-Expanding on the work of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), I investigate the ability of Large Language Models (LLMs) to act as Zero-Shot Time Series Forecasters within the context of physical systems modelling. In particular, I measure the ability of LLMs to incorporate textual information about the physical system (e.g. a description of the system, its mechanics or physical attributes, etc.) for use in its forecasting. This demonstration may be seen as a natural extension to the results of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), and related literature on In-Context-Learning (ICL) more broadly, (see: [Brown et al.](https://arxiv.org/pdf/2005.14165.pdf), [Min et al.](https://arxiv.org/pdf/2202.12837.pdf)), given that the process of integrating physical descriptions into the forecasted sequence is done entirely in-context.
+---
+## Requirements:
+This demonstration requires packages ```openAI```, ```matplotlib```, ```numpy```, and ```tiktoken```. You can install them using:
+- ```pip install -r requirements.txt```, or ```pip3 install -r requirements.txt``` depending on your system.
+- Notebooks ```dampedHarmonic.ipynb``` and ```sineWave.ipynb``` are the only files that are directly demonstrated – all other files are either data or utility functions/classes.
+---
+## Writeup:
+In Large Language Model (LLM) literature, "Zero-Shot" prompting [(Kojima et al.)](https://proceedings.neurips.cc/paper_files/paper/2022/hash/8bb0d291acd4acf06ef112099c16f326-Abstract-Conference.html) is a technique that involves using an LLM to answer a question without providing exemplar responses to similar questions within the prompt (when *N* exemplars are provided in the prompt, this is refered to as *N*-Shot prompting).
+
+Expanding on the work of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), I investigate the ability of LLMs to act as "Zero-Shot" Time Series Forecasters within the context of physical systems modelling. In particular, I measure the ability of LLMs to incorporate textual information about a physical system (e.g. a description of the system, its mechanics or physical attributes, etc.) for use in its forecasting. This demonstration may be seen as a natural extension to the results of [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf), and related literature on In-Context-Learning (ICL) more broadly, (see: [Brown et al.](https://arxiv.org/pdf/2005.14165.pdf), [Min et al.](https://arxiv.org/pdf/2202.12837.pdf)), given that the process of integrating physical descriptions into the forecasted sequence is done entirely in-context.
 
 I first set up the experiment to use the tokenization technique described by [Gruver et al.](https://arxiv.org/pdf/2310.07820.pdf) to leverage GPT-3.5-Turbo tokenization for the in-context "training" data (e.g. the given tokens), ensuring each timestep maps to a single token, and all tokens are separated by space tokens (see [tokenizerTest.py](https://github.com/P-H-B-D/526_research/blob/main/tokenizerDemo/tokenizerTest.py) for a proof-of-concept of this). 
 
@@ -31,6 +40,10 @@ In doing so, I find that the integration of different physical information into 
 
 This work demonstrates strong empirical evidence for the possible benefit of incorporating physical descriptors into the zero-shot forecasting prompt. In turn, this reveals a nontrivial insight into transformers: zero-shot timeseries forecasting ability can be augmented through textual descriptors about the generating process, revealing a deep structural connection between next numeric token prediction and textual pretraining. That is to say, the LLM appears to be capable of effectively integrating contextual information about processes which generate timeseries data into next-token prediction, even when the contextual information pertains to abstract concepts such as an "underdamped harmonic oscillator". Even more impressive is that this entire process takes place in-context and without the use of techniques such as [Chain-of-Thought (Wei et al.)](https://arxiv.org/abs/2201.11903), which would likely be able to even further boost performance through a textual description generation process. 
 
+While these experiments demonstrate impressive effects of zero-shot prompting techniques for timeseries forecasting, there is much to still much to investigate: particularly, creating models of how different prompts may lead to different statistical outcomes in timeseries forecasting settings. This may be seen as an extension of the larger research direction of "model interpretability" in Large Language Models, a rapidly evolving subfield which has shown significant development in the last few years: [[1]](https://www.anthropic.com/index/decomposing-language-models-into-understandable-components) ,[[2]](https://transformer-circuits.pub/2023/interpretability-dreams/index.html), [[3]](https://www.lesswrong.com/posts/jLAvJt8wuSFySN975/mechanistic-interpretability-quickstart-guide). 
+
+---
+### Disclosures:
 Use of ChatGPT/Generative AI Statement: Github Copilot was used to generate print statements and matplotlib graphs, but not in the core algorithmic development or logical implementations.
 
 Collaboration Statement: All work was conducted by Peter Bowman-Davis.
